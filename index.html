@@ -2,62 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Zian's Portfolio</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
+    /* Basic Reset */
+    * {
       margin: 0;
       padding: 0;
-      background-color: #fefefe;
-      color: #333;
+      box-sizing: border-box;
+      scroll-behavior: smooth;
     }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #ffffff;
+      color: #333;
+      line-height: 1.6;
+    }
+
     header {
       background-color: #cbe9ff;
-      padding: 2rem;
+      padding: 2rem 1rem;
       text-align: center;
     }
-    main {
-      padding: 1rem 2rem;
+
+    nav {
+      background-color: #333;
+      color: white;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
     }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
     section {
-      margin-bottom: 2rem;
+      padding: 4rem 2rem;
+      max-width: 800px;
+      margin: auto;
     }
-    footer {
-      background-color: #cbe9ff;
+
+    .photo-container {
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background-color: #ddd;
+      margin: 2rem auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      color: #666;
       text-align: center;
+    }
+
+    footer {
+      text-align: center;
+      background-color: #cbe9ff;
       padding: 1rem;
+      margin-top: 2rem;
+    }
+
+    h1, h2 {
+      color: #005f8d;
+    }
+
+    ul {
+      padding-left: 1.5rem;
+    }
+
+    .projects li {
+      margin-bottom: 0.5rem;
     }
   </style>
 </head>
 <body>
+
+  <!-- Header -->
   <header>
-    <h1>Hello, I'm Zian</h1>
-    <p>BSIT Student | Aspiring Developer</p>
-  </header>
-
-  <main>
-    <section>
-      <h2>About Me</h2>
-      <p>This is my first website. I'm learning to code and design my own portfolio!</p>
-    </section>
-
-    <section>
-      <h2>Projects</h2>
-      <ul>
-        <li>📄 Portfolio Website (this one!)</li>
-        <li>💡 More coming soon...</li>
-      </ul>
-    </section>
-
-    <section>
-      <h2>Contact</h2>
-      <p>Email: your@email.com</p>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 Zian</p>
-  </footer>
-</body>
-</html>
+    <h1>Welcome to My Portfolio</h1>
+    <p>I'm Zian, a
