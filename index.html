@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#00d4ff">
+    <title>Zian - IT Professional Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loader" class="loader">
+        <div class="loader-content">
+            <div class="loader-circle"></div>
+            <p>Loading Portfolio...</p>
+        </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="logo-text">ZDA</span>
+            </div>
+            <div class="nav-links">
+                <a href="#home" class="nav-link active" data-section="home">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="#about" class="nav-link" data-section="about">
+                    <i class="fas fa-user"></i>
+                    <span>About</span>
+                </a>
+                <a href="#education" class="nav-link" data-section="education">
+                    <i class="fas fa-graduation-cap"></i>
+                    <span>Education</span>
+                </a>
+                <a href="#works" class="nav-link" data-section="works">
+                    <i class="fas fa-briefcase"></i>
+                    <span>Works</span>
+                </a>
+                <a href="#contact" class="nav-link" data-section="contact">
+                    <i class="fas fa-envelope"></i>
+                    <span>Contact</span>
+                </a>
+            </div>
+            <div class="nav-toggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Sidebar Profile -->
+    <aside class="profile-sidebar">
+        <div class="profile-content">
+            <div class="profile-image-container">
+                <div class="profile-image">
+                    <img src="PHOTO/PROFILE.jpg" alt="Zian Profile" id="profileImg">
+                    <div class="profile-overlay">
+                        <i class="fas fa-camera"></i>
+                    </div>
+                </div>
+                <div class="status-indicator"></div>
+            </div>
+            
+            <div class="profile-info">
+                <h2 class="profile-name">Zian Daovic Alfonso</h2>
+                
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="4">0</span>
+                        <span class="stat-label">Years</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="25">0</span>
+                        <span class="stat-label">Projects</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number" data-target="15">0</span>
+                        <span class="stat-label">Skills</span>
+                    </div>
+                </div>
+
+                <div class="profile-description">
+                    <p>A 4th-year BSIT student with a passion for technology, clean web design, and interactive websites. I enjoy creating digital solutions that are both functional and visually appealing.</p>
+                </div>
+
+                <div class="profile-interests">
+                    <h4>What I Do in My Free Time</h4>
+                    <div class="interests-list">
+                        <span class="interest-tag">
+                            <i class="fas fa-music"></i> Listening to music
+                        </span>
+                        <span class="interest-tag">
+                            <i class="fas fa-gamepad"></i> Playing games
+                        </span>
+                        <span class="interest-tag">
+                            <i class="fas fa-coffee"></i> Coffee hopping
+                        </span>
+                        <span class="interest-tag">
+                            <i class="fas fa-camera"></i> Photography
+                        </span>
+                        <span class="interest-tag">
+                            <i class="fas fa-film"></i> Watching movies
+                        </span>
+                    </div>
+                </div>
+
+                <div class="profile-actions">
+                    <button class="btn btn-primary" onclick="downloadResume()">
+                        <i class="fas fa-download"></i> Download Resume
+                    </button>
+                    <div class="social-links">
+                        <a href="https://linkedin.com/in/zian" class="social-link" title="LinkedIn">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://github.com/zian" class="social-link" title="GitHub">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="mailto:zian@example.com" class="social-link" title="Email">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                        <a href="https://instagram.com/zian" class="social-link" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-greeting">
+                        <span class="greeting-emoji">👋</span>
+                        <span class="greeting-text">Hello, I'm</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="title-main">Zian</span>
+                        <span class="title-sub" id="typingText">Frontend Developer</span>
+                    </h1>
+                    <p class="hero-description">
+                        I create <span class="highlight">beautiful</span> and <span class="highlight">functional</span> 
+                        web experiences that engage users and drive results. Let's build something amazing together.
+                    </p>
+                    
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary" onclick="scrollToSection('works')">
+                            <i class="fas fa-rocket"></i> View My Works
+                        </button>
+                        <button class="btn btn-secondary" onclick="scrollToSection('contact')">
+                            <i class="fas fa-comment"></i> Let's Talk
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="floating-elements">
+                        <div class="float-item" data-speed="0.5">
+                            <i class="fab fa-html5"></i>
+                        </div>
+                        <div class="float-item" data-speed="0.8">
+                            <i class="fab fa-css3-alt"></i>
+                        </div>
+                        <div class="float-item" data-speed="0.3">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <div class="float-item" data-speed="0.6">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <div class="float-item" data-speed="0.4">
+                            <i class="fab fa-figma"></i>
+                        </div>
+                        <div class="float-item" data-speed="0.7">
+                            <i class="fab fa-node-js"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="scroll-indicator">
+                <div class="scroll-line"></div>
+                <span class="scroll-text">Scroll Down</span>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="section-header">
+                <span class="section-number">01</span>
+                <h2 class="section-title">About Me</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Let me introduce myself</h3>
+                    <p>I'm a passionate BSIT student with a strong foundation in web development and a keen eye for design. I love creating digital experiences that combine functionality with beautiful aesthetics.</p>
+                    <p>My journey started with curiosity about how websites work, and it has evolved into a passion for crafting solutions that make a difference. I believe in continuous learning and staying up-to-date with the latest technologies.</p>
+                    
+                    <div class="experience-highlights">
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Clean Code</h4>
+                                <p>Writing maintainable and scalable code that follows best practices.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-mobile-alt"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>Responsive Design</h4>
+                                <p>Creating websites that work perfectly on all devices and screen sizes.</p>
+                            </div>
+                        </div>
+                        <div class="highlight-item">
+                            <div class="highlight-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="highlight-content">
+                                <h4>User-Centered</h4>
+                                <p>Focusing on user experience and creating intuitive interfaces.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="skills-section">
+                    <h3>Technical Skills</h3>
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h4>Frontend</h4>
+                            <div class="skill-list">
+                                <div class="skill-item">
+                                    <span class="skill-name">HTML5</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="90%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">CSS3</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="85%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">JavaScript</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="80%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">React</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Backend</h4>
+                            <div class="skill-list">
+                                <div class="skill-item">
+                                    <span class="skill-name">Node.js</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="70%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">PHP</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="65%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">MySQL</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="75%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="skill-category">
+                            <h4>Tools</h4>
+                            <div class="skill-list">
+                                <div class="skill-item">
+                                    <span class="skill-name">Figma</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="85%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-item">
+                                    <span class="skill-name">Git</span>
+                                    <div class="skill-bar">
+                                        <div class="skill-progress" data-width="80%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Education Section -->
+        <section id="education" class="section">
+            <div class="section-header">
+                <span class="section-number">02</span>
+                <h2 class="section-title">Education</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="education-content">
+                <div class="education-timeline">
+                    <div class="timeline-item">
+                        <div class="timeline-date">2021 - Present</div>
+                        <div class="timeline-content">
+                            <h3>Bachelor of Science in Information Technology</h3>
+                            <p class="institution">University of Technology</p>
+                            <p class="description">Currently pursuing a degree in Information Technology with focus on web development, software engineering, and database management.</p>
+                            <div class="achievement-tags">
+                                <span class="tag">Dean's List</span>
+                                <span class="tag">3.8 GPA</span>
+                                <span class="tag">Web Dev Club</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="timeline-item">
+                        <div class="timeline-date">2019 - 2021</div>
+                        <div class="timeline-content">
+                            <h3>Senior High School - STEM</h3>
+                            <p class="institution">Tech Preparatory School</p>
+                            <p class="description">Specialized in Science, Technology, Engineering, and Mathematics with emphasis on computer programming fundamentals.</p>
+                            <div class="achievement-tags">
+                                <span class="tag">Honor Roll</span>
+                                <span class="tag">Programming Contest Winner</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="certifications">
+                    <h3>Certifications & Courses</h3>
+                    <div class="cert-grid">
+                        <div class="cert-item">
+                            <div class="cert-icon">
+                                <i class="fab fa-google"></i>
+                            </div>
+                            <div class="cert-content">
+                                <h4>Google UX Design Certificate</h4>
+                                <p>Coursera • 2023</p>
+                            </div>
+                        </div>
+                        <div class="cert-item">
+                            <div class="cert-icon">
+                                <i class="fab fa-microsoft"></i>
+                            </div>
+                            <div class="cert-content">
+                                <h4>Microsoft Azure Fundamentals</h4>
+                                <p>Microsoft • 2023</p>
+                            </div>
+                        </div>
+                        <div class="cert-item">
+                            <div class="cert-icon">
+                                <i class="fab fa-js"></i>
+                            </div>
+                            <div class="cert-content">
+                                <h4>JavaScript Algorithms and Data Structures</h4>
+                                <p>freeCodeCamp • 2022</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Works Section -->
+        <section id="works" class="section">
+            <div class="section-header">
+                <span class="section-number">03</span>
+                <h2 class="section-title">My Works</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="works-content">
+                <div class="project-filters">
+                    <button class="filter-btn active" data-filter="all">All Projects</button>
+                    <button class="filter-btn" data-filter="web">Web Apps</button>
+                    <button class="filter-btn" data-filter="design">UI/UX</button>
+                    <button class="filter-btn" data-filter="mobile">Mobile</button>
+                </div>
+                
+                <div class="projects-grid">
+                    <div class="project-card" data-category="web" data-project-id="ecommerce">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" alt="E-commerce Platform">
+                            <div class="project-overlay">
+                                <div class="project-actions">
+                                    <button class="action-btn" onclick="viewProject('ecommerce')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="openGithub('ecommerce')">
+                                        <i class="fab fa-github"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>E-commerce Platform</h3>
+                            <p>A full-stack e-commerce solution with modern design and seamless user experience.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Node.js</span>
+                                <span class="tech-tag">MongoDB</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" data-category="design" data-project-id="banking">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&h=400&fit=crop" alt="Banking App UI">
+                            <div class="project-overlay">
+                                <div class="project-actions">
+                                    <button class="action-btn" onclick="viewProject('banking')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="openFigma('banking')">
+                                        <i class="fab fa-figma"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Banking App UI Design</h3>
+                            <p>Modern and secure banking application interface with intuitive user experience.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Figma</span>
+                                <span class="tech-tag">UI/UX</span>
+                                <span class="tech-tag">Prototyping</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" data-category="web" data-project-id="taskmanager">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=600&h=400&fit=crop" alt="Task Manager">
+                            <div class="project-overlay">
+                                <div class="project-actions">
+                                    <button class="action-btn" onclick="viewProject('taskmanager')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="openGithub('taskmanager')">
+                                        <i class="fab fa-github"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Task Management App</h3>
+                            <p>Collaborative task management tool with real-time updates and team features.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Vue.js</span>
+                                <span class="tech-tag">Firebase</span>
+                                <span class="tech-tag">PWA</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="project-card" data-category="mobile" data-project-id="weather">
+                        <div class="project-image">
+                            <img src="https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=600&h=400&fit=crop" alt="Weather App">
+                            <div class="project-overlay">
+                                <div class="project-actions">
+                                    <button class="action-btn" onclick="viewProject('weather')">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
+                                    <button class="action-btn" onclick="openGithub('weather')">
+                                        <i class="fab fa-github"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Weather Forecast App</h3>
+                            <p>Beautiful weather application with location-based forecasts and interactive maps.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React Native</span>
+                                <span class="tech-tag">API Integration</span>
+                                <span class="tech-tag">Geolocation</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="section-header">
+                <span class="section-number">04</span>
+                <h2 class="section-title">Get In Touch</h2>
+                <div class="section-line"></div>
+            </div>
+            
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's work together</h3>
+                    <p>I'm always interested in new opportunities and exciting projects. Whether you have a question or just want to say hi, feel free to reach out!</p>
+                    
+                    <div class="contact-methods">
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="method-content">
+                                <h4>Email</h4>
+                                <p>zian@example.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="method-content">
+                                <h4>Phone</h4>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        <div class="contact-method">
+                            <div class="method-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="method-content">
+                                <h4>Location</h4>
+                                <p>New York, NY</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <form id="contactForm" class="contact-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name</label>
+                                <input type="text" id="firstName" name="firstName" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name</label>
+                                <input type="text" id="lastName" name="lastName" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="subject">Subject</label>
+                            <input type="text" id="subject" name="subject" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-paper-plane"></i>
+                            <span>Send Message</span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal for project details -->
+    <div class="modal" id="projectModal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-body">
+                <!-- Content will be dynamically inserted -->
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
