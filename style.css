@@ -475,21 +475,27 @@ body {
 
 .interests-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
+    gap: 1rem;
+    overflow: hidden;          /* hides overflow */
+    white-space: nowrap;       /* prevents wrapping */
+    position: relative;
 }
 
 .interest-tag {
+    flex: 0 0 auto; /* prevents shrinking */
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    justify-content: center;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    padding: 0.8rem 1rem;
-    border-radius: 25px;
+    padding: 1rem;
+    border-radius: 12px;
     font-size: 0.8rem;
     color: var(--text-secondary);
-    transition: var(--transition);
+    min-width: 150px; /* card width */
+    min-height: 100px; /* card height */
+    text-align: center;
 }
 
 .interest-tag:hover {
@@ -499,7 +505,24 @@ body {
 }
 
 .interest-tag i {
-    font-size: 0.9rem;
+    font-size: 1.5rem;
+    margin-bottom: 0.4rem;
+}
+
+.interests-track {
+    display: flex;
+    gap: 1rem;
+    animation: scroll 15s linear infinite; /* speed + infinite loop */
+}
+
+/* Animation keyframes */
+@keyframes scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%); /* move left */
+    }
 }
 
 .profile-actions {
