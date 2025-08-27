@@ -2,6 +2,12 @@
 let currentSection = 'home';
 let isLoading = true;
 let animationsInitialized = false;
+let sidebarOpen = false;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchStartTime = 0;
+let isDragging = false;
+let startSwipeX = 0;
 
 // DOM Content Loaded
 document.addEventListener('DOMContentLoaded', function() {
@@ -15,6 +21,7 @@ function initializeApp() {
     initializeCursor();
     initializeMobileNav();
     initializeSidebar();
+    initializeSwipeGesture();
     initializeScrollIndicator();
     initializeFloatingElements();
     initializeProfileStats();
@@ -249,6 +256,184 @@ function initializeSidebar() {
                 document.body.style.overflow = 'auto';
             }
         });
+    }
+}
+
+// New swipe gesture functionality
+function initializeSwipeGesture() {
+    const swipeIndicator = document.querySelector('.swipe-indicator');
+    const sidebar = document.querySelector('.profile-sidebar');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    
+    if (!swipeIndicator || !sidebar) return;
+    
+    let isSwipeActive = false;
+    let swipeStartX = 0;
+    let swipeCurrentX = 0;
+    let swipeProgress = 0;
+    
+    // Touch events for swipe gesture
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: false });
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    // Swipe indicator click event
+    swipeIndicator.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!sidebarOpen) {
+            openSidebar();
+        }
+    });
+    
+    function handleTouchStart(e) {
+        if (window.innerWidth > 768) return; // Only on mobile
+        
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchStartTime = Date.now();
+        
+        // Check if touch started from the left edge (within 30px)
+        if (touchStartX <= 30 && !sidebarOpen) {
+            isSwipeActive = true;
+            swipeStartX = touchStartX;
+            swipeIndicator.classList.add('active');
+            
+            // Add haptic feedback simulation
+            if (navigator.vibrate) {
+                navigator.vibrate(10);
+            }
+        }
+        
+        // If sidebar is open and touch started outside sidebar
+        if (sidebarOpen && !sidebar.contains(e.target) && !swipeIndicator.contains(e.target)) {
+            isSwipeActive = true;
+            swipeStartX = touchStartX;
+        }
+    }
+    
+    function handleTouchMove(e) {
+        if (!isSwipeActive || window.innerWidth > 768) return;
+        
+        const touch = e.touches[0];
+        swipeCurrentX = touch.clientX;
+        const deltaX = swipeCurrentX - swipeStartX;
+        const deltaY = Math.abs(touch.clientY - touchStartY);
+        
+        // Check if it's a horizontal swipe (not vertical scroll)
+        if (deltaY > 50) {
+            isSwipeActive = false;
+            swipeIndicator.classList.remove('active');
+            return;
+        }
+        
+        e.preventDefault(); // Prevent scrolling during swipe
+        
+        if (!sidebarOpen && deltaX > 0) {
+            // Opening swipe (left to right)
+            swipeProgress = Math.min(deltaX / 200, 1); // 200px to fully open
+            
+            if (swipeProgress > 0.1) {
+                sidebar.style.transform = `translateX(${-100 + (swipeProgress * 100)}%)`;
+                sidebarOverlay.style.opacity = swipeProgress * 0.5;
+                sidebarOverlay.classList.add('show');
+                
+                // Update swipe indicator
+                swipeIndicator.classList.add('swiping');
+                swipeIndicator.style.transform = `translateX(${deltaX}px)`;
+            }
+        } else if (sidebarOpen && deltaX < 0) {
+            // Closing swipe (right to left)
+            swipeProgress = Math.max(1 + (deltaX / 200), 0);
+            
+            sidebar.style.transform = `translateX(${-100 + (swipeProgress * 100)}%)`;
+            sidebarOverlay.style.opacity = swipeProgress * 0.5;
+        }
+    }
+    
+    function handleTouchEnd(e) {
+        if (!isSwipeActive || window.innerWidth > 768) return;
+        
+        const touchEndTime = Date.now();
+        const touchDuration = touchEndTime - touchStartTime;
+        const deltaX = swipeCurrentX - swipeStartX;
+        const swipeVelocity = Math.abs(deltaX) / touchDuration;
+        
+        isSwipeActive = false;
+        swipeIndicator.classList.remove('active', 'swiping');
+        swipeIndicator.style.transform = '';
+        
+        // Determine if we should open or close the sidebar
+        if (!sidebarOpen) {
+            if (swipeProgress > 0.3 || (swipeVelocity > 0.5 && deltaX > 50)) {
+                openSidebar();
+            } else {
+                // Reset sidebar position
+                sidebar.style.transform = '';
+                sidebarOverlay.classList.remove('show');
+                sidebarOverlay.style.opacity = '';
+            }
+        } else {
+            if (swipeProgress < 0.7 || (swipeVelocity > 0.5 && deltaX < -50)) {
+                closeSidebar();
+            } else {
+                // Keep sidebar open
+                sidebar.style.transform = '';
+                sidebarOverlay.style.opacity = '';
+            }
+        }
+        
+        // Reset variables
+        swipeProgress = 0;
+        swipeCurrentX = 0;
+        swipeStartX = 0;
+    }
+}
+
+function openSidebar() {
+    const sidebar = document.querySelector('.profile-sidebar');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    const swipeIndicator = document.querySelector('.swipe-indicator');
+    
+    if (sidebar && sidebarOverlay) {
+        sidebar.classList.add('open');
+        sidebarOverlay.classList.add('show');
+        swipeIndicator.classList.add('hidden');
+        document.body.style.overflow = 'hidden';
+        sidebarOpen = true;
+        
+        // Reset any transform styles
+        sidebar.style.transform = '';
+        sidebarOverlay.style.opacity = '';
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(20);
+        }
+    }
+}
+
+function closeSidebar() {
+    const sidebar = document.querySelector('.profile-sidebar');
+    const sidebarOverlay = document.querySelector('.sidebar-overlay');
+    const swipeIndicator = document.querySelector('.swipe-indicator');
+    
+    if (sidebar && sidebarOverlay) {
+        sidebar.classList.remove('open');
+        sidebarOverlay.classList.remove('show');
+        swipeIndicator.classList.remove('hidden');
+        document.body.style.overflow = 'auto';
+        sidebarOpen = false;
+        
+        // Reset any transform styles
+        sidebar.style.transform = '';
+        sidebarOverlay.style.opacity = '';
+        
+        // Haptic feedback
+        if (navigator.vibrate) {
+            navigator.vibrate(10);
+        }
     }
 }
 
@@ -963,3 +1148,4 @@ window.addEventListener('load', () => {
     // Additional load-specific initialization
     console.log('Portfolio loaded successfully!');
 });
+
