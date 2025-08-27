@@ -682,9 +682,7 @@ function startTypingEffect() {
     
     const texts = [
         'Frontend Developer',
-        'BSIT Student',
         'UI/UX Designer',
-        'Web Developer'
     ];
     
     let textIndex = 0;
