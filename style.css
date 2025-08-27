@@ -662,6 +662,7 @@ body {
 .hero-buttons {
     display: flex;
     gap: 1.5rem;
+    position: relative;
 }
 
 .btn {
@@ -932,6 +933,13 @@ body {
 .education-description {
     color: var(--text-secondary);
     line-height: 1.7;
+    margin-bottom: 1rem;
+}
+
+.education-awards {
+    color: var(--text-primary);
+    font-weight: 500;
+    line-height:1.7;
 }
 
 /* Works Section */
@@ -1288,6 +1296,16 @@ body {
         padding: 0 1rem;
     }
     
+    .hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    position: relative;
+    justify-content: center;
+    align-items: center;       
+    flex-wrap: wrap;          
+    text-align: center;
+}
+
     .nav-links {
         position: fixed;
         top: 0;
