@@ -39,8 +39,8 @@ function initializeApp() {
         // Start typing effect after loader is hidden
         setTimeout(() => {
             startTypingEffect();
-        }, 1000);
-    }, 2000);
+        }, 500);
+    }, 1000);
 }
 
 // Loader functionality
@@ -208,52 +208,34 @@ function initializeMobileNav() {
     }
 }
 
-// Sidebar functionality for mobile
+// Sidebar functionality for mobile (Updated)
 function initializeSidebar() {
-    // Create sidebar toggle button
-    const sidebarToggle = document.createElement('button');
-    sidebarToggle.className = 'sidebar-toggle';
-    sidebarToggle.innerHTML = '<i class="fas fa-user"></i>';
-    sidebarToggle.title = 'View Profile';
-    document.body.appendChild(sidebarToggle);
+    // Remove old sidebar toggle if it exists
+    const existingSidebarToggle = document.querySelector('.sidebar-toggle');
+    if (existingSidebarToggle) {
+        existingSidebarToggle.remove();
+    }
     
     // Create sidebar overlay
-    const sidebarOverlay = document.createElement('div');
-    sidebarOverlay.className = 'sidebar-overlay';
-    document.body.appendChild(sidebarOverlay);
+    let sidebarOverlay = document.querySelector('.sidebar-overlay');
+    if (!sidebarOverlay) {
+        sidebarOverlay = document.createElement('div');
+        sidebarOverlay.className = 'sidebar-overlay';
+        document.body.appendChild(sidebarOverlay);
+    }
     
     const sidebar = document.querySelector('.profile-sidebar');
     
-    if (sidebarToggle && sidebar) {
-        sidebarToggle.addEventListener('click', (e) => {
-            e.stopPropagation();
-            sidebar.classList.toggle('open');
-            sidebarOverlay.classList.toggle('show');
-            
-            if (sidebar.classList.contains('open')) {
-                sidebarToggle.innerHTML = '<i class="fas fa-times"></i>';
-                document.body.style.overflow = 'hidden';
-            } else {
-                sidebarToggle.innerHTML = '<i class="fas fa-user"></i>';
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
+    if (sidebar) {
         // Close sidebar when clicking overlay
         sidebarOverlay.addEventListener('click', () => {
-            sidebar.classList.remove('open');
-            sidebarOverlay.classList.remove('show');
-            sidebarToggle.innerHTML = '<i class="fas fa-user"></i>';
-            document.body.style.overflow = 'auto';
+            closeSidebar();
         });
         
         // Close sidebar on escape key
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && sidebar.classList.contains('open')) {
-                sidebar.classList.remove('open');
-                sidebarOverlay.classList.remove('show');
-                sidebarToggle.innerHTML = '<i class="fas fa-user"></i>';
-                document.body.style.overflow = 'auto';
+            if (e.key === 'Escape' && sidebarOpen) {
+                closeSidebar();
             }
         });
     }
@@ -577,39 +559,22 @@ function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
     notification.innerHTML = `
-        <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-        <span>${message}</span>
-    `;
-    
-    // Add styles
-    notification.style.cssText = `
-        position: fixed;
-        top: 100px;
-        right: 20px;
-        background: var(--bg-tertiary);
-        color: var(--text-primary);
-        padding: 1rem 1.5rem;
-        border-radius: 10px;
-        border: 1px solid var(--primary-color);
-        box-shadow: var(--shadow-light);
-        z-index: 9999;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
+        <div class="notification-content">
+            <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+            <span>${message}</span>
+        </div>
     `;
     
     document.body.appendChild(notification);
     
-    // Animate in
+    // Show notification
     setTimeout(() => {
-        notification.style.transform = 'translateX(0)';
+        notification.classList.add('show');
     }, 100);
     
-    // Remove after 3 seconds
+    // Hide notification after 3 seconds
     setTimeout(() => {
-        notification.style.transform = 'translateX(100%)';
+        notification.classList.remove('show');
         setTimeout(() => {
             document.body.removeChild(notification);
         }, 300);
@@ -629,194 +594,39 @@ function initializeProjectFilters() {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
-            // Filter projects
+            // Filter project cards
             projectCards.forEach(card => {
                 const category = card.getAttribute('data-category');
                 
                 if (filter === 'all' || category === filter) {
                     card.style.display = 'block';
-                    card.style.animation = 'fadeInUp 0.5s ease forwards';
+                    setTimeout(() => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                    }, 100);
                 } else {
-                    card.style.display = 'none';
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    setTimeout(() => {
+                        card.style.display = 'none';
+                    }, 300);
                 }
             });
         });
     });
 }
 
-// Modal functionality
+// Modal functionality (placeholder)
 function initializeModal() {
-    const modal = document.getElementById('projectModal');
-    const closeBtn = modal?.querySelector('.close');
+    // Modal functionality for project details
+    const projectCards = document.querySelectorAll('.project-card');
     
-    if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('show');
+    projectCards.forEach(card => {
+        card.addEventListener('click', () => {
+            // Add project modal functionality here
+            console.log('Project card clicked');
         });
-    }
-    
-    if (modal) {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('show');
-            }
-        });
-    }
-}
-
-// Project actions
-function viewProject(projectId) {
-    const projectData = {
-        'ecommerce': {
-            title: 'E-commerce Platform',
-            description: 'A comprehensive e-commerce solution built with modern technologies...',
-            image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&h=400&fit=crop',
-            tech: ['React', 'Node.js', 'MongoDB', 'Stripe API'],
-            features: ['User Authentication', 'Payment Processing', 'Admin Dashboard', 'Responsive Design']
-        },
-        'banking': {
-            title: 'Banking App UI Design',
-            description: 'Modern and secure banking application interface...',
-            image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&h=400&fit=crop',
-            tech: ['Figma', 'UI/UX', 'Prototyping'],
-            features: ['User Research', 'Wireframing', 'Prototyping', 'User Testing']
-        },
-        'taskmanager': {
-            title: 'Task Management App',
-            description: 'Collaborative task management tool with real-time updates...',
-            image: 'https://images.unsplash.com/photo-1504639725590-34d0984388bd?w=800&h=400&fit=crop',
-            tech: ['Vue.js', 'Firebase', 'PWA'],
-            features: ['Real-time Updates', 'Team Collaboration', 'Offline Support', 'Push Notifications']
-        },
-        'weather': {
-            title: 'Weather Forecast App',
-            description: 'Beautiful weather application with location-based forecasts...',
-            image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=800&h=400&fit=crop',
-            tech: ['React Native', 'API Integration', 'Geolocation'],
-            features: ['Location Detection', '7-day Forecast', 'Weather Maps', 'Severe Weather Alerts']
-        }
-    };
-    
-    const project = projectData[projectId];
-    if (!project) return;
-    
-    const modal = document.getElementById('projectModal');
-    const modalBody = modal.querySelector('.modal-body');
-    
-    modalBody.innerHTML = `
-        <img src="${project.image}" alt="${project.title}" style="width: 100%; height: 300px; object-fit: cover; border-radius: 10px; margin-bottom: 2rem;">
-        <h2 style="color: var(--text-primary); margin-bottom: 1rem;">${project.title}</h2>
-        <p style="color: var(--text-secondary); line-height: 1.6; margin-bottom: 2rem;">${project.description}</p>
-        
-        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Technologies Used</h3>
-        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 2rem;">
-            ${project.tech.map(tech => `<span class="tech-tag">${tech}</span>`).join('')}
-        </div>
-        
-        <h3 style="color: var(--primary-color); margin-bottom: 1rem;">Key Features</h3>
-        <ul style="color: var(--text-secondary); line-height: 1.8;">
-            ${project.features.map(feature => `<li>${feature}</li>`).join('')}
-        </ul>
-        
-        <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-            <button class="btn btn-primary" onclick="window.open('#', '_blank')">
-                <i class="fas fa-external-link-alt"></i> Live Demo
-            </button>
-            <button class="btn btn-secondary" onclick="openGithub('${projectId}')">
-                <i class="fab fa-github"></i> View Code
-            </button>
-        </div>
-    `;
-    
-    modal.classList.add('show');
-}
-
-function openGithub(projectId) {
-    // Replace with actual GitHub URLs
-    const githubUrls = {
-        'ecommerce': 'https://github.com/zian/ecommerce-platform',
-        'taskmanager': 'https://github.com/zian/task-manager',
-        'weather': 'https://github.com/zian/weather-app'
-    };
-    
-    const url = githubUrls[projectId] || 'https://github.com/zian';
-    window.open(url, '_blank');
-}
-
-function openFigma(projectId) {
-    // Replace with actual Figma URLs
-    window.open('https://figma.com/zian/banking-app', '_blank');
-}
-
-// Typing effect functionality
-function initializeTypingEffect() {
-    // Just prepare the element, actual typing will start from startTypingEffect
-    const typingElement = document.getElementById('typingText');
-    if (typingElement) {
-        // Add a cursor for typing effect
-        typingElement.style.borderRight = '2px solid var(--primary-color)';
-        typingElement.style.animation = 'blink 1s infinite';
-    }
-}
-
-function startTypingEffect() {
-    const typingElement = document.getElementById('typingText');
-    if (!typingElement) {
-        console.log('Typing element not found');
-        return;
-    }
-    
-    console.log('Starting typing effect');
-    
-    const texts = ['Frontend Developer', 'UI/UX Enthusiast'];
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-    
-    function typeEffect() {
-        const currentText = texts[textIndex];
-        
-        if (isDeleting) {
-            // Remove characters
-            typingElement.textContent = currentText.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            // Add characters
-            typingElement.textContent = currentText.substring(0, charIndex + 1);
-            charIndex++;
-        }
-        
-        // Calculate typing speed
-        let typeSpeed = isDeleting ? 75 : 120;
-        
-        // If word is complete
-        if (!isDeleting && charIndex === currentText.length) {
-            // Pause at end
-            typeSpeed = 2000;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
-            typeSpeed = 300;
-        }
-        
-        setTimeout(typeEffect, typeSpeed);
-    }
-    
-    // Clear the initial text and start typing
-    typingElement.textContent = '';
-    typeEffect();
-}
-
-// Download resume functionality
-function downloadResume() {
-    // Create a temporary link element
-    const link = document.createElement('a');
-    link.href = '#'; // Replace with actual resume URL
-    link.download = 'Zian_Resume.pdf';
-    link.click();
-    
-    showNotification('Resume download started!', 'success');
+    });
 }
 
 // Intersection Observer for animations
@@ -831,321 +641,138 @@ function initializeIntersectionObserver() {
             if (entry.isIntersecting) {
                 entry.target.classList.add('animate-in');
                 
-                // Trigger specific animations based on section
-                const sectionId = entry.target.id;
-                if (sectionId) {
-                    triggerSectionAnimations(sectionId);
+                // Trigger specific animations for different elements
+                if (entry.target.classList.contains('skill-item')) {
+                    animateSkillBars();
                 }
             }
         });
     }, observerOptions);
     
-    // Observe all sections
-    document.querySelectorAll('.section').forEach(section => {
-        observer.observe(section);
+    // Observe elements for animation
+    document.querySelectorAll('.skill-item, .project-card, .education-item').forEach(el => {
+        observer.observe(el);
     });
 }
 
-// Section-specific animations
-function triggerSectionAnimations(sectionId) {
-    switch (sectionId) {
-        case 'about':
-            animateSkillBars();
-            break;
-        case 'education':
-            animateTimeline();
-            break;
-        case 'works':
-            animateProjects();
-            break;
-        case 'contact':
-            animateContactForm();
-            break;
-    }
-}
-
-function animateTimeline() {
-    const timelineItems = document.querySelectorAll('.timeline-item');
-    
-    timelineItems.forEach((item, index) => {
-        setTimeout(() => {
-            item.style.opacity = '1';
-            item.style.transform = 'translateY(0)';
-        }, index * 200);
-    });
-}
-
-function animateProjects() {
-    const projectCards = document.querySelectorAll('.project-card');
-    
-    projectCards.forEach((card, index) => {
-        setTimeout(() => {
-            card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
-        }, index * 100);
-    });
-}
-
-function animateContactForm() {
-    const formElements = document.querySelectorAll('.contact-method, .form-group');
-    
-    formElements.forEach((element, index) => {
-        setTimeout(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }, index * 100);
-    });
-}
-
-// Initialize animations
-function initializeAnimations() {
-    // Set initial states for animated elements
-    const animatedElements = document.querySelectorAll('.timeline-item, .project-card, .contact-method, .form-group');
-    
-    animatedElements.forEach(element => {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    });
-}
-
-// Keyboard navigation
-document.addEventListener('keydown', (e) => {
-    if (isLoading) return;
-    
-    const sections = ['home', 'about', 'education', 'works', 'contact'];
-    const currentIndex = sections.indexOf(currentSection);
-    
-    switch (e.key) {
-        case 'ArrowDown':
-        case 'ArrowRight':
-            e.preventDefault();
-            if (currentIndex < sections.length - 1) {
-                scrollToSection(sections[currentIndex + 1]);
-            }
-            break;
-        case 'ArrowUp':
-        case 'ArrowLeft':
-            e.preventDefault();
-            if (currentIndex > 0) {
-                scrollToSection(sections[currentIndex - 1]);
-            }
-            break;
-        case 'Home':
-            e.preventDefault();
-            scrollToSection('home');
-            break;
-        case 'End':
-            e.preventDefault();
-            scrollToSection('contact');
-            break;
-    }
-});
-
-// Smooth scroll behavior for anchor links
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// Performance optimization: Debounce scroll events
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Window resize handler
-window.addEventListener('resize', debounce(() => {
-    // Reinitialize cursor on resize
-    initializeCursor();
-    
-    // Handle floating elements on resize
-    initializeFloatingElements();
-    
-    // Close mobile nav on resize
-    if (window.innerWidth > 768) {
-        const navToggle = document.querySelector('.nav-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const sidebar = document.querySelector('.profile-sidebar');
-        const sidebarOverlay = document.querySelector('.sidebar-overlay');
-        
-        if (navToggle && navLinks) {
-            navToggle.classList.remove('active');
-            navLinks.classList.remove('open');
-        }
-        
-        if (sidebar && sidebarOverlay) {
-            sidebar.classList.remove('open');
-            sidebarOverlay.classList.remove('show');
-            document.body.style.overflow = 'auto';
-        }
-    }
-}, 250));
-
-// Page visibility API for performance
-document.addEventListener('visibilitychange', () => {
-    if (document.hidden) {
-        // Pause animations when page is not visible
-        document.body.style.animationPlayState = 'paused';
-    } else {
-        // Resume animations when page becomes visible
-        document.body.style.animationPlayState = 'running';
-    }
-});
-
-// Touch and mobile optimizations
+// Touch optimizations
 function initializeTouchOptimizations() {
-    // Add touch-friendly classes
-    document.body.classList.add('touch-optimized');
-    
-    // Prevent zoom on double tap for iOS
+    // Prevent zoom on double tap
     let lastTouchEnd = 0;
-    document.addEventListener('touchend', (e) => {
-        const now = new Date().getTime();
+    document.addEventListener('touchend', function (event) {
+        const now = (new Date()).getTime();
         if (now - lastTouchEnd <= 300) {
-            e.preventDefault();
+            event.preventDefault();
         }
         lastTouchEnd = now;
     }, false);
     
-    // Handle touch events for project cards
-    const projectCards = document.querySelectorAll('.project-card');
-    projectCards.forEach(card => {
-        let touchStartTime = 0;
-        
-        card.addEventListener('touchstart', (e) => {
-            touchStartTime = new Date().getTime();
-        });
-        
-        card.addEventListener('touchend', (e) => {
-            const touchEndTime = new Date().getTime();
-            const touchDuration = touchEndTime - touchStartTime;
-            
-            // If touch duration is short (tap), trigger click
-            if (touchDuration < 500) {
-                e.preventDefault();
-                const projectId = card.getAttribute('data-project-id') || 'ecommerce';
-                viewProject(projectId);
-            }
-        });
-    });
+    // Improve touch responsiveness
+    document.addEventListener('touchstart', function() {}, { passive: true });
+}
+
+// Typing effect
+function initializeTypingEffect() {
+    // This will be called after loader is hidden
+}
+
+function startTypingEffect() {
+    const typingElement = document.getElementById('typingText');
+    if (!typingElement) return;
     
-    // Smooth scrolling for mobile
-    if ('scrollBehavior' in document.documentElement.style) {
-        document.documentElement.style.scrollBehavior = 'smooth';
+    const texts = [
+        'Frontend Developer',
+        'BSIT Student',
+        'UI/UX Designer',
+        'Web Developer'
+    ];
+    
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    function typeText() {
+        const currentText = texts[textIndex];
+        
+        if (isDeleting) {
+            typingElement.textContent = currentText.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typingElement.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+        }
+        
+        let typeSpeed = 100;
+        
+        if (isDeleting) {
+            typeSpeed /= 2;
+        }
+        
+        if (!isDeleting && charIndex === currentText.length) {
+            typeSpeed = 2000;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            typeSpeed = 500;
+        }
+        
+        setTimeout(typeText, typeSpeed);
     }
     
-    // Viewport height fix for mobile browsers
-    function setViewportHeight() {
-        const vh = window.innerHeight * 0.01;
-        document.documentElement.style.setProperty('--vh', `${vh}px`);
+    typeText();
+}
+
+// Section-specific animations
+function triggerSectionAnimations(sectionId) {
+    if (sectionId === 'about') {
+        setTimeout(() => {
+            animateSkillBars();
+        }, 500);
     }
+}
+
+// General animations initialization
+function initializeAnimations() {
+    console.log('Animations initialized');
     
-    setViewportHeight();
-    window.addEventListener('resize', setViewportHeight);
-    window.addEventListener('orientationchange', () => {
-        setTimeout(setViewportHeight, 100);
+    // Add any general animations here
+    const animatedElements = document.querySelectorAll('.animate-in');
+    animatedElements.forEach(el => {
+        el.classList.add('animate-in');
     });
 }
 
-// Add CSS animations and mobile styles
-const style = document.createElement('style');
-style.textContent = `
-    :root {
-        --vh: 1vh;
-    }
-    
-    @keyframes fadeInUp {
-        from {
-            opacity: 0;
-            transform: translateY(30px);
-        }
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    
-    .animate-in {
-        animation: fadeInUp 0.6s ease forwards;
-    }
-    
-    .notification {
-        animation: slideInRight 0.3s ease forwards;
-    }
-    
-    @keyframes slideInRight {
-        from {
-            transform: translateX(100%);
-        }
-        to {
-            transform: translateX(0);
-        }
-    }
-    
-    /* Mobile-specific styles */
-    @media (max-width: 768px) {
-        .section {
-            min-height: calc(var(--vh, 1vh) * 100);
-        }
-        
-        /* Larger touch targets */
-        .btn, .nav-link, .filter-btn, .action-btn {
-            min-height: 44px;
-            min-width: 44px;
-        }
-        
-        /* Better spacing for touch */
-        .nav-link {
-            padding: 1rem;
-            margin: 0.5rem 0;
-        }
-        
-        /* Improved form inputs for mobile */
-        .form-group input,
-        .form-group textarea {
-            font-size: 16px; /* Prevent zoom on iOS */
-        }
-        
-        /* Touch-friendly project cards */
-        .project-card {
-            cursor: pointer;
-            -webkit-tap-highlight-color: rgba(0, 212, 255, 0.2);
-        }
-        
-        /* Remove hover effects on touch devices */
-        @media (hover: none) {
-            .project-card:hover,
-            .highlight-item:hover,
-            .contact-method:hover,
-            .cert-item:hover {
-                transform: none;
-                box-shadow: none;
-            }
-        }
-    }
-`;
+// Project functionality placeholders
+function viewProject(projectId) {
+    console.log('Viewing project:', projectId);
+    // Add project viewing logic here
+}
 
-document.head.appendChild(style);
+function openGithub(projectId) {
+    console.log('Opening GitHub for project:', projectId);
+    // Add GitHub link logic here
+}
 
-// Initialize everything when page loads
-window.addEventListener('load', () => {
-    // Additional load-specific initialization
-    console.log('Portfolio loaded successfully!');
+function openFigma(projectId) {
+    console.log('Opening Figma for project:', projectId);
+    // Add Figma link logic here
+}
+
+function downloadResume() {
+    console.log('Downloading resume...');
+    // Add resume download logic here
+}
+
+// Handle resize events
+window.addEventListener('resize', () => {
+    // Reinitialize floating elements if needed
+    if (window.innerWidth > 768) {
+        initializeFloatingElements();
+    }
+    
+    // Close sidebar on desktop
+    if (window.innerWidth > 768 && sidebarOpen) {
+        closeSidebar();
+    }
 });
-
